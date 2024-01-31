@@ -14,7 +14,7 @@ export const addIceCandidate = (
         candidate: candidateObj,
       });
     } else {
-      console.log('finish search candidate');
+      // console.log('finish search candidate');
     }
   };
 };

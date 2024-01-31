@@ -19,6 +19,6 @@ export const playVideo = async (
   try {
     await element.play();
   } catch (error) {
-    console.log(`playVideo : ${error}`);
+    console.error(`playVideo : ${error}`);
   }
 };
