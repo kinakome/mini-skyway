@@ -20,38 +20,34 @@ export const createConnection = (config: RTCConfiguration | undefined) => {
 // 発信者の接続準備
 export const prepareCallerConnection = async (
   skywayConnection: SkywayConnection,
-  answerClientId: string
+  calleeId: string
 ) => {
   const { peerConnection, socket } = skywayConnection;
   setIceCandidate(peerConnection, socket);
-  addIceCandidate(peerConnection, socket, answerClientId);
+  addIceCandidate(peerConnection, socket, calleeId);
 
-  await sendOffer(peerConnection, socket, answerClientId);
+  await sendOffer(peerConnection, socket, calleeId);
   socket.on('reciveSdp', (answer: RTCSessionDescription) => {
     (async () => {
       await peerConnection.setRemoteDescription(answer);
     })();
   });
-
-  return peerConnection;
 };
 
 // 受信者の接続準備
 export const prepareCalleeConnection = async (
   skywayConnection: SkywayConnection,
-  offerClientId: string
+  callerId: string
 ) => {
   const { peerConnection, socket } = skywayConnection;
 
   socket.on('reciveSdp', (offer: RTCSessionDescription) => {
     (async () => {
       setIceCandidate(peerConnection, socket);
-      addIceCandidate(peerConnection, socket, offerClientId);
-      await reciveOffer(peerConnection, socket, offer, offerClientId);
+      addIceCandidate(peerConnection, socket, callerId);
+      await reciveOffer(peerConnection, socket, offer, callerId);
     })();
   });
-
-  return peerConnection;
 };
 
 // ローカルの映像再生および配信
