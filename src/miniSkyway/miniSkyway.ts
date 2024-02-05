@@ -10,7 +10,7 @@ export type SkywayConnection = {
 
 // RTCPeerConnectionとwebsocketの作成
 export const createConnection = (config: RTCConfiguration | undefined) => {
-  const socketUrl = 'http://localhost:7072'; //デプロイしたらdotenvに移行
+  const socketUrl = 'ws://35.194.110.226:80';
 
   const socket = io(socketUrl);
   const peerConnection = new RTCPeerConnection(config);
